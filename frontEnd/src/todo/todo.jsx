@@ -64,20 +64,22 @@ export default class Todo extends Component {
     }
 
     handleMarkAsPause(todo) {        
-        axios.put(`${URL}/${todo._id}`, {...todo, pauseStatus: true, pauseTime: [{init: new Date(), resume:''}]})
+        axios.put(`${URL}/${todo._id}`, {...todo, pauseStatus: true, pauseTime: todo.pauseTime.push({pause: (new Date()).toString(), resume:''})})
+            .then(resp => this.refresh(this.state.title, this.state.description))
     }
 
     handleMarkAsResume(todo) {
         const newPauseTime = {...todo.pauseTime}
-        const position = newPauseTimed.length - 1
-        console.log(position)
-        console.log(newPauseTime)
-        //let newPauseTime = pauseTime[pauseTime.length-1].resume     
-        /*let newPauseTime = {...todo,  pauseStatus: false, pauseTime: 
-        }*/
-        //console.log(newPauseTime)
-        //console.log(newPauseTime);
-        //axios.put(`${URL}/${todo._id}`, {...todo, pauseStatus: true,})
+        const newArr = newPauseTime
+        const contArr = newArr.length -1
+        newArr[contArr].resume = new Date()
+       // console.log(position)
+       //let newPauseTime = pauseTime[pauseTime.length-1].resume     
+       
+       console.log(newArr)
+        
+        axios.put(`${URL}/${todo._id}`, {...todo, pauseStatus: false, pauseTime: newArr})
+            .then(resp => this.refresh(this.state.title))
     }
 
     handleSearch() {

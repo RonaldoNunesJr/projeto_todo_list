@@ -8,8 +8,10 @@ export default props => {
         
 
         return list.map(todo => {
-            const showPause = todo.done && !todo.pauseStatus
-            
+            const showPause = !todo.done && !todo.pauseStatus
+            const showMarkAsPending = todo.done && !todo.pauseStatus
+            const showRemove = todo.done && !todo.pauseStatus
+            console.log(showMarkAsPending)
             return (
                 <tr key={todo._id}>
                     <td className={todo.done ? 'markedAsDone':''}>
@@ -17,19 +19,19 @@ export default props => {
                     <small>{todo.description}</small>
                     </td>
                     <td>
-                        <IconButton style='succes' icon='check' hide={!showPause}
+                        <IconButton style='success' icon='check' hide={!showPause}
                         onClick={() => props.handleMarkAsDone(todo)}></IconButton>
 
-                        <IconButton style='success' icon='pause-circle' hide={!todo.pauseStatus}
+                        <IconButton style='success' icon='pause-circle' hide={todo.pauseStatus}
                         onClick={() => props.handleMarkAsPause(todo)}></IconButton>
                         
-                        <IconButton style='success' icon='play-circle' hide={todo.pauseStatus}
+                        <IconButton style='success' icon='play-circle' hide={!todo.pauseStatus}
                         onClick={() => props.handleMarkAsResume(todo)}></IconButton>
                         
-                        <IconButton style='warning' icon='undo' hide={todo.done && !todo.pauseStatus}
+                        <IconButton style='warning' icon='undo' hide={!showMarkAsPending}
                         onClick={() => props.handleMarkAsPending(todo)}></IconButton>
                         
-                        <IconButton style='danger' icon='trash-o' hide={todo.done && !todo.pauseStatus}
+                        <IconButton style='danger' icon='trash-o' hide={!showRemove}
                         onClick={() => props.handleRemove(todo)}></IconButton>
                     </td>
                 </tr>
