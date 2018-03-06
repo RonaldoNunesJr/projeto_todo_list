@@ -14,11 +14,15 @@ export default props => {
     return (
         <div role='form' className='todoForm'>
             <Grid cols='12 9 10'>
-                <input id='description' className='form-control'
-                    placeholder='Adicione uma tarefa'
-                    onChange={props.handleChange}
+                <input id='title' className='form-control'
+                    placeholder='Adicione o titulo de tarefa'
+                    onChange={props.handleChangeTitle}
                     onKeyUp={keyHandler}
-                    value={props.description}></input>
+                    value={props.title}></input>
+                <textarea id='description' className='form-control'
+                    placeholder='Adicione uma descrição da tarefa'
+                    onChange={props.handleChangeDescription}
+                    value={props.description}></textarea>
             </Grid>
             <Grid cols='12 3 2'>
                 <IconButton style='primary' icon='plus'

@@ -13,13 +13,19 @@ export default props => {
                 <small>{todo.description}</small>
                 </td>
                 <td>
-                    <IconButton style='success' icon='check' hide={todo.done}
+                    <IconButton style='succes' icon='check' hide={todo.done && !todo.pauseStatus}
                     onClick={() => props.handleMarkAsDone(todo)}></IconButton>
-                    <IconButton style='success' icon='pause-circle' hide={todo.pauseStatus}></IconButton>
-                    <IconButton style='success' icon='play-circle' hide={!todo.done}></IconButton>
-                    <IconButton style='warning' icon='undo' hide={!todo.done}
+
+                    <IconButton style='success' icon='pausse-circle' hide={!todo.pauseStatus}
+                    onClick={() => props.handleMarkAsPause(todo)}></IconButton>
+                    
+                    <IconButton style='success' icon='play-circle' hide={todo.pauseStatus}
+                    onClick={() => props.handleMarkAsResume(todo)}></IconButton>
+                    
+                    <IconButton style='warning' icon='undo' hide={todo.done && !todo.pauseStatus}
                     onClick={() => props.handleMarkAsPending(todo)}></IconButton>
-                    <IconButton style='danger' icon='trash-o' hide={!todo.done}
+                    
+                    <IconButton style='danger' icon='trash-o' hide={!todo.done && !todo.pauseStatus}
                     onClick={() => props.handleRemove(todo)}></IconButton>
                 </td>
             </tr>

@@ -6,7 +6,7 @@ const todoSchema = new mongoose.Schema({
     description: { type: String, required: false },
     done: { type: Boolean, required: true, default: false },
     createdAt: { type: Date, default: Date.now },
-    endAt: { type: Date, default: Date.now },
+    endAt: { type: Date, default: '' },
     pauseStatus: {type: Boolean, required: true, default: false},
     pauseTime: { type: Array, required: false } 
 })
