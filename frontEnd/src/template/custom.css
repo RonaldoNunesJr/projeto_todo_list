@@ -7,10 +7,21 @@
     color: #777;
 }
 
+.markedAsPaused {
+    color: #777;
+    opacity: 0.2;
+}
+
 .tableActions {
     width: 105px;
 }
 
 .todoForm {
+    width: 100%;
+    display: inline-block;
     padding-bottom: 60px;
+}
+
+textarea {
+    margin-top: 13px;
 }

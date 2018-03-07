@@ -21,6 +21,7 @@ export default class Todo extends Component {
         this.handleMarkAsDone = this.handleMarkAsDone.bind(this)
         this.handleMarkAsPending = this.handleMarkAsPending.bind(this)
         this.handleMarkAsPause = this.handleMarkAsPause.bind(this)
+        this.handleMarkAsResume = this.handleMarkAsResume.bind(this)
         this.handleRemove = this.handleRemove.bind(this)
 
         this.refresh()
@@ -34,10 +35,11 @@ export default class Todo extends Component {
         this.setState({...this.state, description: e.target.value })
     }
 
-    refresh (title = '') {
+    refresh (title = '', description = '') {
+        
         const search = title ? `&title__regex=/${title}/`:''
         axios.get(`${URL}?sort=-createdAt${search}`)
-            .then(resp => this.setState({...this.state, title: this.state.title, list: resp.data}));
+            .then(resp => this.setState({...this.state, title: this.state.title, description: this.state.description, list: resp.data}));
     }
 
     handleAdd() {
@@ -50,40 +52,36 @@ export default class Todo extends Component {
 
     handleRemove(todo) {
         axios.delete(`${URL}/${todo._id}`)
-        .then(resp => this.refresh(this.state.title))
+        .then(resp => this.refresh(this.state.title, this.state.description))
     }
 
     handleMarkAsDone(todo) {
         axios.put(`${URL}/${todo._id}`, {...todo, done: true})
-            .then(resp => this.refresh(this.state.title))
+            .then(resp => this.refresh(this.state.title, this.state.description))
     }
     
     handleMarkAsPending(todo) {
         axios.put(`${URL}/${todo._id}`, {...todo, done: false})
-            .then(resp => this.refresh(this.state.title))
+            .then(resp => this.refresh(this.state.title, this.state.description))
     }
 
-    handleMarkAsPause(todo) {        
-        axios.put(`${URL}/${todo._id}`, {...todo, pauseStatus: true, pauseTime: todo.pauseTime.push({pause: (new Date()).toString(), resume:''})})
+    handleMarkAsPause(todo) {
+        const newTodo = {...todo}
+        axios.put(`${URL}/${todo._id}`, {...todo, pauseStatus: true, pauseTime: newTodo.pauseTime.concat({pause: new Date(), resume: ''}) })
             .then(resp => this.refresh(this.state.title, this.state.description))
     }
 
     handleMarkAsResume(todo) {
-        const newPauseTime = {...todo.pauseTime}
-        const newArr = newPauseTime
-        const contArr = newArr.length -1
-        newArr[contArr].resume = new Date()
-       // console.log(position)
-       //let newPauseTime = pauseTime[pauseTime.length-1].resume     
-       
-       console.log(newArr)
-        
-        axios.put(`${URL}/${todo._id}`, {...todo, pauseStatus: false, pauseTime: newArr})
-            .then(resp => this.refresh(this.state.title))
+        const newTodo = {...todo}
+        const contArr = todo.pauseTime.length - 1
+        newTodo.pauseTime[contArr].resume = new Date()
+            
+        axios.put(`${URL}/${todo._id}`, {...todo, pauseStatus: false, pauseTime: newTodo.pauseTime})
+            .then(resp => this.refresh(this.state.title, this.state.description))
     }
 
     handleSearch() {
-        this.refresh(this.state.title)
+        this.refresh(this.state.title, this.state.description)
     }
 
     handleClear() {

@@ -14,7 +14,7 @@ export default props => {
             console.log(showMarkAsPending)
             return (
                 <tr key={todo._id}>
-                    <td className={todo.done ? 'markedAsDone':''}>
+                    <td className={todo.done ? 'markedAsDone':'' || todo.pauseStatus ? 'markedAsPaused':''}>
                     <strong>{todo.title}</strong><br />
                     <small>{todo.description}</small>
                     </td>
@@ -22,10 +22,10 @@ export default props => {
                         <IconButton style='success' icon='check' hide={!showPause}
                         onClick={() => props.handleMarkAsDone(todo)}></IconButton>
 
-                        <IconButton style='success' icon='pause-circle' hide={todo.pauseStatus}
+                        <IconButton style='success' icon='pause-circle' hide={!showPause}
                         onClick={() => props.handleMarkAsPause(todo)}></IconButton>
                         
-                        <IconButton style='success' icon='play-circle' hide={!todo.pauseStatus}
+                        <IconButton style='warning' icon='play-circle' hide={!todo.pauseStatus}
                         onClick={() => props.handleMarkAsResume(todo)}></IconButton>
                         
                         <IconButton style='warning' icon='undo' hide={!showMarkAsPending}
