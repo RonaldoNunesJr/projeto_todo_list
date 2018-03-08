@@ -10,7 +10,7 @@ const URL = 'http://localhost:3003/api/todoJobs'
 export default class Todo extends Component {
     constructor(props) {
         super(props)
-        this.state = { title: '', list: [] }
+        this.state = { title: '', description: '', list: [] }
 
         this.handleChangeTitle = this.handleChangeTitle.bind(this)
         this.handleChangeDescription = this.handleChangeDescription.bind(this)
@@ -39,7 +39,10 @@ export default class Todo extends Component {
         
         const search = title ? `&title__regex=/${title}/`:''
         axios.get(`${URL}?sort=-createdAt${search}`)
-            .then(resp => this.setState({...this.state, title: this.state.title, description: this.state.description, list: resp.data}));
+            .then(resp => {
+                this.setState({...this.state, title: this.state.title, description: this.state.description, list: resp.data})
+                console.log(this.state)
+            });
     }
 
     handleAdd() {

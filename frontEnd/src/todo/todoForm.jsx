@@ -10,6 +10,14 @@ export default props => {
             props.handleClear()
         }
     }
+    
+    const keyHandlerDescription = (e) => {
+        if (e.key === 'Enter') {
+            e.shiftKey ? props.handleAdd() : ''
+        } else if (e.key === 'Escape') {
+            props.handleClear()
+        }
+    }
 
     return (
         <div role='form' className='todoForm'>
@@ -22,6 +30,7 @@ export default props => {
                 <textarea id='description' className='form-control'
                     placeholder='Adicione uma descrição da tarefa'
                     onChange={props.handleChangeDescription}
+                    onKeyUp={keyHandlerDescription}
                     value={props.description}></textarea>
             </Grid>
             <Grid cols='12 3 2'>
