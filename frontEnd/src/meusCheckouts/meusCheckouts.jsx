@@ -11,14 +11,14 @@ export default class MeusCheckouts extends Component {
         super(props)
         this.state = { title : '', list: [] }
         
-        this.refresh()
+        this.get()
     }
-    refresh (title = '') {
+    get (title = '') {
         const search = title ? `&title__regex=/${title}/`:''
         axios.get(`${URL}?sort=-createdAt${search}`)
             .then(resp => {
                 this.setState({...this.state, list: resp.data})
-                console.log(`after setState ${this.state}`)
+                console.log(`after setState ${this.state.list}`)
             })
             .catch(error => console.error(error))
         
